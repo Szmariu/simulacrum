@@ -19,6 +19,21 @@ roll <- function(target, overload = 0) {
   return( c(hit, degree, overloaded) )
 }
 
+rollHit < function(){
+  return(roll(attacker$bs))
+}
+
+rollDodge <- function(hits){
+  # if(no dodge left) return( hits )
+  dodge <- roll(defender$dodge)
+  
+  #If dodge sucessful
+  if(dodge[1]) return(1 + hits - dodge[2])
+  
+  # If not
+  return(hits)
+}
+
 calculateDamage <- function(){
   damage <- 0
   
@@ -39,13 +54,11 @@ calculateDamage <- function(){
 
 singleAttack <- function(){
   # Roll to hit
-  hit <- roll(attacker$bs)
+  hit <- rollHit()
   if(hit[1] == 0) return(0)
   
   # Roll do dodge
-  dodge <- roll(defender$dodge)
-  
-  hitsLeft = 1 + hit[2] - max(0, dodge[2])
+  hitsLeft <- rollDodge(hit[2])
   if(hitsLeft < 1) return(0)
   
   # Role for the Force Field
