@@ -2,6 +2,9 @@ library(tidyverse)
 library(MonteCarlo)
 library(ggplot2)
 
+source('code/objects.R')
+source('code/functions.R')
+
 #obiekt person
 
 #obiekt attaker
@@ -12,63 +15,33 @@ library(ggplot2)
 
 # funkcja atakuj do skutku
 
-makeAttacker <- function(bs = 0,
-                         damageDie = 10,
-                         damageModifier = 0,
-                         penetration = 0) {
-
-  value <- list(bs = bs, 
-                damageDie = damageDie,
-                damageModifier = damageModifier,
-                penetration = penetration)
-
-  attr(value, "class") <- "attacker"
-  value
-}
-
-
-makeDefender <- function(t = 0,
-                        wounds = 0,
-                        armour = 0) {
-  
-  value <- list(t = t,
-                wounds = wounds,
-                armour = armour)
-  
-  attr(value, "class") <- "defender"
-  value
-}
 
 
 attacker <- makeAttacker(
-  bs = 100,
+  bs = 30,
   damageDie = 10,
-  damageModifier = 9,
-  penetration = 4
+  damageModifier = 3,
+  penetration = 0,
+  rateOfFire = 10
 )
 
 defender <- makeDefender(
-  t = 40,
+  t = 30,
   wounds = 20,
-  armour = 4
+  armour = 4,
+  dodge = 30
 )
 
-singleAttack <- function(){
-  if ( sample(1:100, 1) > attacker$bs ) return(FALSE)
-  
-  damage <-
-    sample(1:attacker$damageDie, 1) + attacker$damageModifier - max(0, defender$armour - attacker$penetration) - floor(defender$t / 10)
-  
-  defender$wounds <- defender$wounds - max(0, damage)
-  return(defender)
-}
 
-defender <- singleAttack()
+singleAttack()
 
-defender$wounds
+a <- replicate(10000, singleAttack())
 
-
-
+a %>%
+  table() %>%
+  as.data.frame() %>%
+  ggplot() +
+  geom_col(aes(x = ., y = Freq))
 
 # Testing the distribution
 runif(1000000, 0.5, 100.5) %>%
