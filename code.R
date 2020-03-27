@@ -37,9 +37,9 @@ defender <- makeDefender(
 
 
 singleAttack()
-a <- replicate(100, singleAttack())
+#a <- replicate(100, singleAttack())
 
-a <- replicate(10000, singleAttack())
+a <- replicate(20000, singleAttack())
 
 a %>%
   table() %>%
@@ -47,3 +47,7 @@ a %>%
   ggplot() +
   geom_col(aes(x = ., y = Freq))
 
+a %>%
+  as_tibble() %>%
+  ggplot() +
+  geom_histogram(aes(x = value))
