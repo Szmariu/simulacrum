@@ -18,10 +18,10 @@ source('code/functions.R')
 
 
 attacker <- makeAttacker(
-  bs = 30,
+  bs = 70,
   damageDie = 10,
-  damageModifier = 3,
-  penetration = 0,
+  damageModifier = 9,
+  penetration = 4,
   rateOfFire = 10
 )
 

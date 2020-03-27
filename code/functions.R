@@ -1,10 +1,10 @@
-rollHit <- function() {
+roll <- function(target) {
   hit <- 0
   roll <- sample(1:100, 1)
   
-  if( roll <= attacker$bs ) hit <- 1
+  if( roll <= target ) hit <- 1
   
-  degree <- (roll - attacker$bs) / 10 
+  degree <- (roll - target) / 10 
   
   degree %<>%
     floor() %>%
@@ -34,10 +34,15 @@ calculateDamage <- function(){
 }
 
 singleAttack <- function(){
+  hit <- roll(attacker$bs)
+  if(hit[1] == 0) return(0)
   
+  dodge <- roll(defender$dodge)
   
+  hitsLeft = 1 + hit[2] - max(0, dodge[2])
+  if(hitsLeft < 1) return(0)
+  
+  damage <- calculateDamage()
 
-  
-  defender$wounds <- defender$wounds - max(0, damage)
   return(max(0, damage))
 }
