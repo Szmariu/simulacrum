@@ -18,12 +18,18 @@ makeAttacker <- function(bs = 0,
 makeDefender <- function(t = 0,
                          wounds = 0,
                          armour = 0,
-                         dodge = 0) {
+                         dodge = 0,
+                         forceField = 0,
+                         forceFieldOverload = 0,
+                         isForceFieldOverloaded = 0 ) {
   
   value <- list(t = t,
                 wounds = wounds,
                 armour = armour,
-                dodge = dodge)
+                dodge = dodge,
+                forceField = forceField,
+                forceFieldOverload = forceFieldOverload,
+                isForceFieldOverloaded = isForceFieldOverloaded)
   
   attr(value, "class") <- "defender"
   value

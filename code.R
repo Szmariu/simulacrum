@@ -29,11 +29,15 @@ defender <- makeDefender(
   t = 30,
   wounds = 20,
   armour = 4,
-  dodge = 30
+  dodge = 30,
+  forceField = 10,
+  forceFieldOverload = 5,
+  isForceFieldOverloaded = 0
 )
 
 
 singleAttack()
+a <- replicate(100, singleAttack())
 
 a <- replicate(10000, singleAttack())
 
@@ -42,13 +46,4 @@ a %>%
   as.data.frame() %>%
   ggplot() +
   geom_col(aes(x = ., y = Freq))
-
-# Testing the distribution
-runif(1000000, 0.5, 100.5) %>%
-  round() %>%
-  table() %>%
-  as.data.frame() %>%
-  ggplot() +
-  geom_col(aes(x = ., y = Freq))
-
 
