@@ -70,7 +70,7 @@ shinyServer(function(input, output) {
         
         simulation %>%
             ggplot(aes(x = as.factor(x),
-                       fill = factor(ifelse(simulation$x == 20, 'Wounds', 'Other')))) +
+                       fill = factor(ifelse(simulation$x == input$wounds_, 'Wounds', 'Other')))) +
             geom_bar(
                 aes(y = cumsum), 
                 stat = 'identity',
