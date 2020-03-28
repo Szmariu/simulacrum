@@ -1,6 +1,5 @@
-roll <- function(target, overload = 0) {
+roll <- function(target) {
   hit <- 0
-  overloaded <- 0
   roll <- sample(1:100, 1)
   
   if( roll <= target ) hit <- 1
@@ -13,14 +12,32 @@ roll <- function(target, overload = 0) {
   
   if( roll < 6 | roll > 94) degree <- degree + 1
   
-  # Check if overloaded (for forcefields)  
-  if(roll <= overload) overloaded = 1
-  
-  return( c(hit, degree, overloaded) )
+  return( list(isSucess = hit, degree = degree, roll = roll) )
 }
 
 rollHit <- function(){
-  return(roll(attacker$bs))
+  # Check if there is a bonus modifier
+  modifier <- 0
+  if (attacker$firingMode == 'full') modifier <- 20
+  if (attacker$firingMode == 'semi') modifier <- 10
+  
+  # Roll for the hit
+  result <- (attacker$bs + modifier) %>%
+    min(100) %>%
+    roll()
+  
+  # 1 for a sucess 
+  # + 1 per DoS for auto
+  # + 1 per 2 DoS for semi auto
+  if (attacker$firingMode == 'full') result$degree <- 1 + result$degree
+  else if (attacker$firingMode == 'semi') result$degree <-  1 + floor( result$degree / 2 )
+  else result$degree <- 1
+  
+  # Can't have more hits than shots, heh
+  result$degree <- result$degree %>%
+    min(attacker$rateOfFire)
+  
+  return(result)
 }
 
 rollDodge <- function(hits){
@@ -28,7 +45,7 @@ rollDodge <- function(hits){
   dodge <- roll(defender$dodge)
   
   #If dodge sucessful
-  if(dodge[1]) return(hits - dodge[2])
+  if(dodge$isSucess) return(hits - 1 - dodge$degree)
   
   # If not
   return(hits)
@@ -56,24 +73,22 @@ singleAttack <- function(){
   damage <- 0
   
   # Roll to hit
-  hit <- rollHit()
-  if(hit[1] == 0) return(0)
+  hitRoll <- rollHit()
+  if( !hitRoll$isSucess ) return(0)
+  hitsLeft <- hitRoll$degree
   
   # Roll do dodge
-  hitsLeft <- rollDodge(hit[2] + 1)
+  hitsLeft <- rollDodge(hitsLeft)
   if(hitsLeft < 1) return(0)
   
   # Role for the Force Field
-  forceField = roll(defender$forceField, defender$forceFieldOverload)
-  
-  # Check if overloaded
-  #if( forceField[3] ) defender$isForceFieldOverloaded = 1
+  forceField = roll(defender$forceField)
   
   # Check if it worked
-  if( forceField[1] & !defender$isForceFieldOverloaded ) return(0)
+  if( forceField$isSucess & !defender$isForceFieldOverloaded ) return(0)
   
   for(i in 1:hitsLeft) {
-    damage <- damage + max(0, calculateDamage())
+    damage <- damage + calculateDamage()
   }
   
   return(damage)

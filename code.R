@@ -1,28 +1,18 @@
 library(tidyverse)
 library(MonteCarlo)
 library(ggplot2)
+library(pbapply)
 
 source('code/objects.R')
 source('code/functions.R')
 
-#obiekt person
-
-#obiekt attaker
-
-#obiekt defender
-
-#funkcja atakuj
-
-# funkcja atakuj do skutku
-
-
-
 attacker <- makeAttacker(
-  bs = 70,
+  bs = 50,
   damageDie = 10,
   damageModifier = 9,
   penetration = 4,
-  rateOfFire = 10
+  rateOfFire = 3,
+  firingMode = 'semi'
 )
 
 defender <- makeDefender(
@@ -37,9 +27,8 @@ defender <- makeDefender(
 
 
 singleAttack()
-#a <- replicate(100, singleAttack())
 
-a <- replicate(20000, singleAttack())
+a <- pbreplicate(10000, singleAttack())
 
 a %>%
   table() %>%

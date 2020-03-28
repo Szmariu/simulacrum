@@ -2,13 +2,16 @@ makeAttacker <- function(bs = 0,
                          damageDie = 10,
                          damageModifier = 0,
                          penetration = 0,
-                         rateOfFire = 1) {
+                         rateOfFire = 1,
+                         firingMode = 'single' # single, semi, full
+                         ) {
   
   value <- list(bs = bs, 
                 damageDie = damageDie,
                 damageModifier = damageModifier,
                 penetration = penetration,
-                rateOfFire = rateOfFire)
+                rateOfFire = rateOfFire,
+                firingMode = firingMode)
   
   attr(value, "class") <- "attacker"
   value
