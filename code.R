@@ -50,4 +50,4 @@ a %>%
 a %>%
   as_tibble() %>%
   ggplot() +
-  geom_histogram(aes(x = value))
+  geom_histogram(aes(x = value), fill = '#378CC7')
