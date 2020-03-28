@@ -29,7 +29,7 @@ defender <- makeDefender(
 
 singleAttack()
 
-a <- pbreplicate(10000, singleAttack())
+a <- pbreplicate(100000, singleAttack())
 
 a %>%
   as_tibble() %>%

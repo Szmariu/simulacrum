@@ -6,10 +6,8 @@ roll <- function(target) {
   
   degree <- (roll - target) / 10 
   
-  degree %<>%
-    floor() %>%
-    abs()
-  
+  degree <- abs(floor(degree))
+
   if( roll < 6 | roll > 94) degree <- degree + 1
   
   return( list(isSucess = hit, degree = degree, roll = roll) )
@@ -22,9 +20,7 @@ rollHit <- function(){
   if (attacker$firingMode == 'semi') modifier <- 10
   
   # Roll for the hit
-  result <- (attacker$bs + modifier) %>%
-    min(100) %>%
-    roll()
+  result <- roll( min(100, attacker$bs + modifier) )
   
   # 1 for a sucess 
   # + 1 per DoS for auto
@@ -34,8 +30,7 @@ rollHit <- function(){
   else result$degree <- 1
   
   # Can't have more hits than shots, heh
-  result$degree <- result$degree %>%
-    min(attacker$rateOfFire)
+  result$degree <- min(result$degree, attacker$rateOfFire)
   
   return(result)
 }
