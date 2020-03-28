@@ -1,20 +1,20 @@
 roll <- function(target) {
   hit <- 0
-  roll <- sample(1:100, 1)
+  roll <- rollDie(100)
   
   if( roll <= target ) hit <- 1
   
   degree <- (roll - target) / 10 
   
   degree <- abs(floor(degree))
-
+  
   if( roll < 6 | roll > 94) degree <- degree + 1
   
   return( list(isSucess = hit, degree = degree, roll = roll) )
 }
 
 rollDie <- function(dieSides) {
-  return(sample(1:dieSides, 1))
+  return(sample(dieSides, 1))
 }
 
 rollHit <- function(){

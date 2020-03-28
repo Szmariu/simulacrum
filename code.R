@@ -37,16 +37,16 @@ a %>%
   as_tibble() %>%
   filter(value > 0) %>%
   ggplot(aes(x = as.factor(value))) +
-    geom_bar(
-      aes(y = (..count..)/sum(..count..)),
-      fill = '#378CC7') +
-    geom_text(
-      aes(y = ((..count..)/sum(..count..)),
-      label = percent((..count..)/sum(..count..), 1)),
-      stat = "count",
-      vjust = -0.75) +
-    scale_y_continuous(labels = percent) +
-    labs(x = 'Damage to target', y = 'Probability')
+  geom_bar(
+    aes(y = (..count..)/sum(..count..)),
+    fill = '#378CC7') +
+  geom_text(
+    aes(y = ((..count..)/sum(..count..)),
+        label = percent((..count..)/sum(..count..), 1)),
+    stat = "count",
+    vjust = -0.75) +
+  scale_y_continuous(labels = percent) +
+  labs(x = 'Damage to target', y = 'Probability')
 
 a %>%
   as_tibble() %>%

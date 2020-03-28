@@ -4,8 +4,7 @@ makeAttacker <- function(bs = 0,
                          penetration = 0,
                          rateOfFire = 1,
                          firingMode = 'single', # single, semi, full,
-                         isTearing = 0
-                         ) {
+                         isTearing = 0){
   
   value <- list(bs = bs, 
                 damageDie = damageDie,
