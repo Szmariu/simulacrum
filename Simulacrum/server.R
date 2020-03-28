@@ -10,7 +10,7 @@ library(shiny)
 shinyServer(function(input, output) {
 
     
-    output$damagePlot <- renderPlot({
+    runSimulation <- reactive({
         print(getwd())
         source('code/objects.R', local = TRUE)
         source('code/functions.R', local = TRUE)
@@ -40,6 +40,12 @@ shinyServer(function(input, output) {
         
         if( !input$showMisses_ ) simulation <- simulation %>% filter(value > 0)
         
+        return(simulation)
+    })
+    
+    output$damagePlot <- renderPlot({
+        simulation <- runSimulation()
+        
         simulation %>%
             ggplot(aes(x = as.factor(value))) +
             geom_bar(
@@ -52,6 +58,31 @@ shinyServer(function(input, output) {
                 vjust = -0.75) +
             scale_y_continuous(labels = percent) +
             labs(x = 'Damage to target', y = 'Probability')
+    })
+    
+    output$damagePlotCumulated <- renderPlot({
+        simulation <- runSimulation()
+        
+        simulation <- simulation %>%
+            table(dnn = list('x')) %>%
+            as_tibble() %>% 
+            mutate(cumsum = lag( 1 - cumsum(n) / sum(n), default = 1 ), x = as.integer(x) ) 
+        
+        simulation %>%
+            ggplot(aes(x = as.factor(x),
+                       fill = factor(ifelse(simulation$x == 20, 'Wounds', 'Other')))) +
+            geom_bar(
+                aes(y = cumsum), 
+                stat = 'identity',
+                show.legend = FALSE) +
+            geom_text(
+                aes(y = cumsum),
+                label = percent(simulation$cumsum, 1),
+                vjust = -0.75) + 
+            geom_hline(aes(yintercept = 0.5), color = 'red', alpha = 0.5) +
+            scale_y_continuous(labels = percent) +
+            scale_fill_manual(name = "area", values=c("#378CC7","#FADA5E")) +
+            labs(x = 'Damage to target', y = 'Probability of dealing at least this much damage')
     })
     
 })

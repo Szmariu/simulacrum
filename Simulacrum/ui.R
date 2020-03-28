@@ -47,7 +47,8 @@ shinyUI(
             
             # Show a plot of the generated distribution
             mainPanel(
-                plotOutput("damagePlot")
+                plotOutput("damagePlot"),
+                plotOutput("damagePlotCumulated")
             )
         )
     )
