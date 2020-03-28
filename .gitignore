@@ -37,3 +37,5 @@ vignettes/*.pdf
 
 # R Environment Variables
 .Renviron
+
+Simulacrum/rsconnect/shinyapps.io/szmariu/Simulacrum.dcf

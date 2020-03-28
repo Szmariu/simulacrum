@@ -3,9 +3,11 @@ library(MonteCarlo)
 library(ggplot2)
 library(pbapply)
 library(scales)
+library(R.oo)
 
 source('code/objects.R')
 source('code/functions.R')
+
 
 attacker <- makeAttacker(
   bs = 50,
@@ -28,9 +30,9 @@ defender <- makeDefender(
 )
 
 
-singleAttack()
+singleAttack(attacker, defender)
 
-a <- pbreplicate(100000, singleAttack())
+a <- pbreplicate(10000, singleAttack(attacker, defender))
 
 # Filter 0
 a %>%
