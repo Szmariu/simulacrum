@@ -32,20 +32,6 @@ singleAttack()
 
 a <- pbreplicate(100000, singleAttack())
 
-a %>%
-  as_tibble() %>%
-  ggplot(aes(x = as.factor(value))) +
-  geom_bar(
-    aes(y = (..count..)/sum(..count..)),
-    fill = '#378CC7') +
-  geom_text(
-    aes(y = ((..count..)/sum(..count..)),
-        label = scales::percent((..count..)/sum(..count..))),
-    stat = "count",
-    vjust = -0.75) +
-  scale_y_continuous(labels = percent) +
-  labs(x = 'Damage to target', y = 'Probability')
-
 # Filter 0
 a %>%
   as_tibble() %>%
@@ -56,11 +42,45 @@ a %>%
       fill = '#378CC7') +
     geom_text(
       aes(y = ((..count..)/sum(..count..)),
-      label = scales::percent((..count..)/sum(..count..))),
+      label = percent((..count..)/sum(..count..), 1)),
       stat = "count",
       vjust = -0.75) +
     scale_y_continuous(labels = percent) +
     labs(x = 'Damage to target', y = 'Probability')
+
+a %>%
+  as_tibble() %>%
+  ggplot(aes(x = as.factor(value))) +
+  geom_bar(
+    aes(y = (..count..)/sum(..count..)),
+    fill = '#378CC7') +
+  geom_text(
+    aes(y = ((..count..)/sum(..count..)),
+        label = percent((..count..)/sum(..count..), 1)),
+    stat = "count",
+    vjust = -0.75) +
+  scale_y_continuous(labels = percent) +
+  labs(x = 'Damage to target', y = 'Probability')
+
+
+# Cumulated plot 
+a %>%
+  as_tibble() %>%
+  filter(value > 0) %>%
+  ggplot(aes(x = as.factor(value))) +
+  geom_bar(
+    aes(y = 1 - cumsum(..count..)/sum(..count..)),
+    fill = '#378CC7') +
+  geom_text(
+    aes(y = (1 - cumsum(..count..)/sum(..count..)),
+        label = percent(1 - cumsum(..count..)/sum(..count..), 1)),
+    stat = "count",
+    vjust = -0.75) +
+  scale_y_continuous(labels = percent) +
+  labs(x = 'Damage to target', y = 'Probability')
+
+
+
 
 a %>%
   as_tibble() %>%
