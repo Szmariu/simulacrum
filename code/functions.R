@@ -13,6 +13,10 @@ roll <- function(target) {
   return( list(isSucess = hit, degree = degree, roll = roll) )
 }
 
+rollDie <- function(dieSides) {
+  return(sample(1:dieSides, 1))
+}
+
 rollHit <- function(){
   # Check if there is a bonus modifier
   modifier <- 0
@@ -50,7 +54,13 @@ calculateDamage <- function(){
   damage <- 0
   
   # Dice + modifier
-  damage <- sample(1:attacker$damageDie, 1) + attacker$damageModifier
+  damageRoll <- rollDie(attacker$damageDie)
+  
+  # Check if there is Tearing
+  if(attacker$isTearing) damageRoll <- max(damageRoll, rollDie(attacker$damageDie))
+  
+  # Add damage modifier
+  damage <- damageRoll + attacker$damageModifier
   
   # Armour and penetration
   damage <- damage - max(0, defender$armour - attacker$penetration)
