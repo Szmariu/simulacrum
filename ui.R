@@ -26,7 +26,7 @@ shinyUI(
                                      numericInput('damageModifier_', "Weapon's damage modifier", 9, 0, 100, 1),
                                      numericInput('penetration_', "Weapon's penetration", 4, 0, 100, 1),
                                      numericInput('rateOfFire_', "Weapon's rate of fire (input only the one used, usually highest)", 3, 0, 100, 5),
-                                     radioButtons('firingMode', "Weapon's type of fire", choiceNames = c('Single', 'Semi auto', 'Full auto'), choiceValues = c('single', 'semi', 'full'), selected = 'semi'),
+                                     radioButtons('firingMode', "Weapon's type of fire", choiceNames = c('Single', 'Semi auto', 'Full auto'), choiceValues = c('single', 'semi', 'full'), selected = 'full'),
                                      checkboxGroupInput('additional_attacker', "Additional features (attacker)", choiceNames = c('Tearing', 'Lol'), choiceValues = c('tearing', 'lol'), selected = c('tearing'))
                                      ),
                             tabPanel("Defender", 
@@ -38,7 +38,7 @@ shinyUI(
                                      numericInput('forceFieldOverload_', "Force field overload", 0, 0, 100, 1)
                                      ),
                             tabPanel("Settings",
-                                     numericInput('nReps_', 'Number of monte carlo rounds', 10000, 100, 10000000, 10000),
+                                     numericInput('nReps_', 'Number of monte carlo rounds', 1000, 100, 10000000, 10000),
                                      checkboxInput('showMisses_', 'Show misses on the plot?', 0)
                                     )
                             ),
