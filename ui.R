@@ -16,9 +16,17 @@ shinyUI(
         # Application title
         titlePanel("Simulacrum"),
         
+
+        
         # Sidebar with a slider input for number of bins
         sidebarLayout(
             sidebarPanel(
+                tags$img(
+                    src = 'logo.png',
+                    width = '100%',
+                    style = 'max-width: 700px;
+                             margin: auto;
+                             display: block;'),
                 tabsetPanel(type = "tabs",
                             tabPanel("Attacker",
                                      numericInput('BS_', 'BS', 50, 0, 100, 5),

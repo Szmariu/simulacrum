@@ -3,7 +3,6 @@ library(MonteCarlo)
 library(ggplot2)
 library(pbapply)
 library(scales)
-
 library(shiny)
 
 # Define server logic required to draw a histogram
