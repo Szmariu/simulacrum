@@ -9,4 +9,4 @@ The simulation runs in R, so using c++ with Rcpp would greatly improve performan
 # Deploy 
 Currently deployed on a private server. 
 
-To deploy on your own, you may use the [Shiny docker image]{https://hub.docker.com/r/rocker/shiny/} on Amazon ECS. 
+To deploy on your own, you may use the [Shiny docker image](https://hub.docker.com/r/rocker/shiny/) on Amazon ECS. 
