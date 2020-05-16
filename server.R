@@ -8,11 +8,17 @@ library(shiny)
 # Define server logic required to draw a histogram
 shinyServer(function(input, output) {
 
+    observeEvent(input$additional_attacker, {}, ignoreNULL = FALSE)
+    
     
     runSimulation <- reactive({
         print(getwd())
         source('code/objects.R', local = TRUE)
         source('code/functions.R', local = TRUE)
+        
+        # Check if proven should apply
+        proven = 0
+        if ('proven' %in% input$additional_attacker) proven = input$proven_
         
         attacker <- makeAttacker(
             bs = input$BS_,
@@ -21,7 +27,8 @@ shinyServer(function(input, output) {
             penetration = input$penetration_,
             rateOfFire = input$rateOfFire_,
             firingMode = input$firingMode,
-            isTearing = 'tearing' %in% input$additional_attacker
+            isTearing = 'tearing' %in% input$additional_attacker,
+            proven = proven
         )
         
         defender <- makeDefender(

@@ -16,7 +16,8 @@ attacker <- makeAttacker(
   penetration = 4,
   rateOfFire = 3,
   firingMode = 'semi',
-  isTearing = 1
+  isTearing = 1,
+  proven = 0
 )
 
 defender <- makeDefender(

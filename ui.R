@@ -35,7 +35,10 @@ shinyUI(
                                      numericInput('penetration_', "Weapon's penetration", 4, 0, 100, 1),
                                      numericInput('rateOfFire_', "Weapon's rate of fire (input only the one used, usually highest)", 3, 0, 100, 5),
                                      radioButtons('firingMode', "Weapon's type of fire", choiceNames = c('Single', 'Semi auto', 'Full auto'), choiceValues = c('single', 'semi', 'full'), selected = 'full'),
-                                     checkboxGroupInput('additional_attacker', "Additional features (attacker)", choiceNames = c('Tearing', 'Lol'), choiceValues = c('tearing', 'lol'), selected = c('tearing'))
+                                     checkboxGroupInput('additional_attacker', "Additional features (attacker)", choiceNames = c('Tearing', 'Proven'), choiceValues = c('tearing', 'proven'), selected = c('tearing')),
+                                     conditionalPanel(
+                                         condition = "input.additional_attacker.includes('proven')",
+                                         numericInput('proven_', "Round damage values lower than:", 0, 0, 10, 1))
                                      ),
                             tabPanel("Defender", 
                                      numericInput('T_', 'T', 30, 0, 100, 5),
@@ -50,7 +53,7 @@ shinyUI(
                                      checkboxInput('showMisses_', 'Show misses on the plot?', 0)
                                     )
                             ),
-                submitButton(text = "Apply Changes", icon = NULL, width = NULL)
+                #submitButton(text = "Apply Changes", icon = NULL, width = NULL)
             ),
             
             # Show a plot of the generated distribution

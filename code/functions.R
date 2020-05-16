@@ -50,14 +50,24 @@ rollDodge <- function(hits){
   return(hits)
 }
 
+applyProven <- function(diceRoll){
+  # e.g. if you have proven 4, all rolls of 1, 2 and 3 will be converted to 4
+  return(max(diceRoll, attacker$proven))
+}
+
 calculateDamage <- function(){
   damage <- 0
   
   # Dice + modifier
   damageRoll <- rollDie(attacker$damageDie)
+  damageRollTearing <- rollDie(attacker$damageDie)
+  
+  # Apply proven
+  damageRoll <- applyProven(damageRoll)
+  damageRollTearing <- applyProven(damageRollTearing)
   
   # Check if there is Tearing
-  if(attacker$isTearing) damageRoll <- max(damageRoll, rollDie(attacker$damageDie))
+  if(attacker$isTearing) damageRoll <- max(damageRoll, damageRollTearing)
   
   # Add damage modifier
   damage <- damageRoll + attacker$damageModifier
