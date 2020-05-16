@@ -1,4 +1,4 @@
-![Warhammer 40k logo](logo.png)
+![Warhammer 40k logo](www/logo.png)
 
 # simulacrum
 Dice simulation for a custom WH40k RPG ruleset - with Shiny GUI 
