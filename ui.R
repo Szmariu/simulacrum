@@ -8,15 +8,15 @@
 #
 
 library(shiny)
+library(shinythemes)
 
 # Define UI for application that draws a histogram
 shinyUI(
     fluidPage(
+        theme = shinytheme("readable"),
         
         # Application title
         titlePanel("Simulacrum"),
-        
-
         
         # Sidebar with a slider input for number of bins
         sidebarLayout(
