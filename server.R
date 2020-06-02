@@ -64,7 +64,19 @@ shinyServer(function(input, output) {
                 stat = "count",
                 vjust = -0.75) +
             scale_y_continuous(labels = percent) +
-            labs(x = 'Damage to target', y = 'Probability')
+            scale_fill_manual(name = "area", values=c("#378CC7","#FADA5E")) +
+            labs(
+                title = 'Probability of dealing a specific amount of damage',
+                x = 'Damage to target', 
+                y = 'Probability'
+                ) +
+            theme_minimal() + 
+            theme(
+                plot.title = element_text(size = 20, face = 'bold'),
+                axis.title.x = element_text(size = 16, face = 'bold'),
+                axis.title.y = element_text(size = 16, face = 'bold')
+                )
+            
     })
     
     output$damagePlotCumulated <- renderPlot({
@@ -89,7 +101,16 @@ shinyServer(function(input, output) {
             geom_hline(aes(yintercept = 0.5), color = 'red', alpha = 0.5) +
             scale_y_continuous(labels = percent) +
             scale_fill_manual(name = "area", values=c("#378CC7","#FADA5E")) +
-            labs(x = 'Damage to target', y = 'Probability of dealing at least this much damage')
+            labs(
+                title = 'Probability of dealing at least this much damage',
+                x = 'Damage to target', 
+                y = 'Probability of dealing at least this much damage') +
+            theme_minimal() + 
+            theme(
+                plot.title = element_text(size = 20, face = 'bold'),
+                axis.title.x = element_text(size = 16, face = 'bold'),
+                axis.title.y = element_text(size = 12, face = 'bold')
+            )
     })
     
 })
