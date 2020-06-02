@@ -53,10 +53,11 @@ shinyServer(function(input, output) {
         simulation <- runSimulation()
         
         simulation %>%
-            ggplot(aes(x = as.factor(value))) +
+            ggplot(aes(x = as.factor(value),
+                       fill = factor(ifelse(simulation$value == input$wounds_, 'Wounds', 'Other')))) +
             geom_bar(
                 aes(y = (..count..)/sum(..count..)),
-                fill = '#378CC7') +
+                show.legend = FALSE) +
             geom_text(
                 aes(y = ((..count..)/sum(..count..)),
                     label = percent((..count..)/sum(..count..), 1)),
